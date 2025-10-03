@@ -8,7 +8,7 @@ import "./App.css";
 import MainPage from "./components/MainPage";
 import DetailPage from "./components/DetailPage";
 
-function App() {
+const App: React.FC = () => {
   return (
     <Router>
       <div className="App">
@@ -25,6 +25,6 @@ function App() {
       </div>
     </Router>
   );
-}
+};
 
 export default App;

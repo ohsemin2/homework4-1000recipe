@@ -6,24 +6,36 @@ import {
   useParams,
   Link,
 } from "react-router-dom";
+import { Recipe } from "../types/Recipe";
 import "./DetailPage.css";
 
-const DetailPage = () => {
-  const { id } = useParams();
-  const [recipe, setRecipe] = useState(null);
-  const [loading, setLoading] = useState(true);
+interface RouteParams
+  extends Record<string, string | undefined> {
+  id: string;
+}
+
+const DetailPage: React.FC = () => {
+  const { id } = useParams<RouteParams>();
+  const [recipe, setRecipe] =
+    useState<Recipe | null>(null);
+  const [loading, setLoading] =
+    useState<boolean>(true);
 
   useEffect(() => {
-    fetchRecipe(id);
+    if (id) {
+      fetchRecipe(id);
+    }
   }, [id]);
 
-  const fetchRecipe = async (recipeId) => {
+  const fetchRecipe = async (
+    recipeId: string
+  ): Promise<void> => {
     setLoading(true);
     try {
       const response = await fetch(
         `https://dummyjson.com/recipes/${recipeId}`
       );
-      const data = await response.json();
+      const data: Recipe = await response.json();
       setRecipe(data);
     } catch (error) {
       console.error(

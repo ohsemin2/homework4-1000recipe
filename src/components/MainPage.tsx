@@ -3,29 +3,39 @@ import React, {
   useEffect,
 } from "react";
 import { Link } from "react-router-dom";
+import {
+  Recipe,
+  RecipesResponse,
+} from "../types/Recipe";
 import "./MainPage.css";
 
-const MainPage = () => {
-  const [recipes, setRecipes] = useState([]);
+const MainPage: React.FC = () => {
+  const [recipes, setRecipes] = useState<
+    Recipe[]
+  >([]);
   const [currentPage, setCurrentPage] =
-    useState(1);
+    useState<number>(1);
   const [totalRecipes, setTotalRecipes] =
-    useState(0);
-  const [loading, setLoading] = useState(true);
-  const recipesPerPage = 12;
+    useState<number>(0);
+  const [loading, setLoading] =
+    useState<boolean>(true);
+  const recipesPerPage: number = 12;
 
   useEffect(() => {
     fetchRecipes(currentPage);
   }, [currentPage]);
 
-  const fetchRecipes = async (page) => {
+  const fetchRecipes = async (
+    page: number
+  ): Promise<void> => {
     setLoading(true);
     try {
       const skip = (page - 1) * recipesPerPage;
       const response = await fetch(
         `https://dummyjson.com/recipes?limit=${recipesPerPage}&skip=${skip}`
       );
-      const data = await response.json();
+      const data: RecipesResponse =
+        await response.json();
       setRecipes(data.recipes);
       setTotalRecipes(data.total);
     } catch (error) {
@@ -38,31 +48,33 @@ const MainPage = () => {
     }
   };
 
-  const totalPages = Math.ceil(
+  const totalPages: number = Math.ceil(
     totalRecipes / recipesPerPage
   );
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (
+    page: number
+  ): void => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
     }
   };
 
-  const handlePrevious = () => {
+  const handlePrevious = (): void => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
   };
 
-  const handleNext = () => {
+  const handleNext = (): void => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   };
 
-  const getPageNumbers = () => {
-    const pages = [];
-    const maxVisiblePages = 10;
+  const getPageNumbers = (): number[] => {
+    const pages: number[] = [];
+    const maxVisiblePages: number = 10;
 
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
