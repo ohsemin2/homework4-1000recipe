@@ -82,7 +82,7 @@ const DetailPage: React.FC = () => {
                 {recipe.name}
               </h2>
               <p className="recipe-difficulty">
-                Easy
+                {recipe.difficulty || "Easy"}
               </p>
               <div className="recipe-basic-details">
                 <p>
@@ -117,15 +117,23 @@ const DetailPage: React.FC = () => {
               <ol>
                 {recipe.instructions?.map(
                   (instruction, index) => (
-                    <li
-                      key={index}
-                    >{`아이가 치료가`}</li>
+                    <li key={index}>
+                      {instruction}
+                    </li>
                   )
                 ) || [
-                  <li key="1">아이가 치료가</li>,
-                  <li key="2">아이가 치료가</li>,
-                  <li key="3">아이가 치료가</li>,
-                  <li key="4">아이가 치료가</li>,
+                  <li key="1">
+                    재료를 준비합니다.
+                  </li>,
+                  <li key="2">
+                    순서대로 조리합니다.
+                  </li>,
+                  <li key="3">
+                    맛을 확인합니다.
+                  </li>,
+                  <li key="4">
+                    완성된 요리를 제공합니다.
+                  </li>,
                 ]}
               </ol>
             </div>
@@ -133,10 +141,27 @@ const DetailPage: React.FC = () => {
             <div className="section">
               <h3>요리 정보</h3>
               <div className="cooking-info">
-                <p>유형: 아이에탄</p>
-                <p>출처: 저희식당</p>
-                <p>칼로리: 500</p>
-                <p>평점: 4.8</p>
+                <p>
+                  유형:{" "}
+                  {recipe.mealType?.join(", ") ||
+                    "일반식"}
+                </p>
+                <p>
+                  출처: {recipe.cuisine || "기타"}
+                </p>
+                <p>
+                  칼로리:{" "}
+                  {recipe.caloriesPerServing ||
+                    "정보 없음"}
+                </p>
+                <p>
+                  평점: {recipe.rating || "4.0"} (
+                  {recipe.reviewCount || 0}개
+                  리뷰)
+                </p>
+                <p>
+                  인분: {recipe.servings || 1}인분
+                </p>
               </div>
             </div>
           </div>

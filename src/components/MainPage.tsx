@@ -127,7 +127,7 @@ const MainPage: React.FC = () => {
                   {recipe.name}
                 </h3>
                 <p className="recipe-difficulty">
-                  Easy
+                  {recipe.difficulty || "Easy"}
                 </p>
                 <div className="recipe-tags">
                   {recipe.ingredients
